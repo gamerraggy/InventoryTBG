@@ -1,0 +1,79 @@
+#include<iostream>
+using namespace std;
+
+
+//global variables: can be seen and used by all functions in the game
+string inventory[10];
+int PlayerHealth = 100;
+
+int main() {
+	int room = 1;
+	string input;
+	while (input != "quit") { // game loop
+
+		cout << endl << "------------------------------------------" << endl;
+		//stuff here happens every turn
+		cout << "Inventory: ";
+		for (int i = 0; i < 10; i++)
+			cout << inventory[i]<<" | ";
+		cout << endl << endl;
+
+		cout << "Your HP: " << PlayerHealth << endl << endl;
+
+		switch (room) {
+		case 1:
+			cout << "You got some tortilla chips" << endl;
+			inventory[0] = "Tortilla Chips"; //puts item in inventory
+
+			cout << "You are in room 1, you can only go east" << endl;
+			cout << "Theres a dusty rug on the floor" << endl;
+			cin >> input;
+			if (input == "east")
+				room = 2;
+			else if (input == "rug") {
+				cout << "You find a KEY" << endl;
+				inventory[2] = "Key";
+			}
+			break;
+		case 2:
+			cout << "You are in room 2, you can go west or north" << endl;
+			if (inventory[1] != "Sword")  //only say sword if you didnt pick it up
+				cout << "There's a sword on the floor" << endl;
+			cin >> input;
+			if (input == "north")
+				if (inventory[2] == "Key") {
+					cout << "You unlock the door with the KEY" << endl;
+					room = 3;
+					inventory[2] = " "; //no more key
+				}
+				else {
+					cout << "The door rattles. It is locked" << endl;
+
+				}
+			else if (input == "west")
+				room = 1;
+			else if (input == "sword" || input == "grab") {
+				cout << "You grabbed the sword" << endl;
+				inventory[1] = "Sword";
+			}
+
+			break;
+		case 3:
+			cout << "You are in room 3, There's a boss" << endl;
+			if (inventory[1] == "Sword") {
+				cout << "You easily beat the rabbit!" << endl;
+				cout << "GAME OVER YOU WIN!" << endl;
+				return 0; //quits game
+			}
+			else {
+				cout << "The boss beats you" << endl;
+				cout << "It was a rabbit" << endl;
+				return 0;
+			}
+
+
+		}// end switch
+
+	}//end of game loop
+
+} // end of main
